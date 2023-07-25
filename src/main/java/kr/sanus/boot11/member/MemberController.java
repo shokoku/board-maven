@@ -1,5 +1,6 @@
 package kr.sanus.boot11.member;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,9 +36,9 @@ public class MemberController {
       return "member/joinForm";
     }
 
-    if (!member.getMemberPw().equals(member.getMemberPw2())) {
-      if (!member.getMemberPw().isEmpty() && !member.getMemberPw2().isEmpty()) {
-        bindingResult.rejectValue("memberPw2", "error.member", "비밀번호가 일치하지 않습니다.");
+    if (!member.getPw().equals(member.getPw2())) {
+      if (!member.getPw().isEmpty() && !member.getPw2().isEmpty()) {
+        bindingResult.rejectValue("pw2", "error.member", "비밀번호가 일치하지 않습니다.");
       }
       log.info("errors={}", bindingResult);
       model.addAttribute("bindingResult", bindingResult);
@@ -64,11 +65,13 @@ public class MemberController {
       return "member/loginForm";
     }
 
-    if (memberService.login(form.getMemberId(), form.getMemberPw())) {
-      return "redirect:/";
+    Optional<Member> findMember = memberService.login(form.getId(), form.getPw());
+    if (findMember.isPresent()) {
+      System.out.println("findMember = " + findMember.get());
     } else {
-      return "member/loginForm";
+      System.out.println("찾을수 없습니다.");
     }
+    return "redirect:/";
   }
 
 }

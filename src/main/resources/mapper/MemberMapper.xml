@@ -2,15 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.sanus.boot11.member.MemberMapper">
 
-  <insert id="join" parameterType="kr.sanus.boot11.member.Member">
-    INSERT INTO members (member_id, member_pw, member_name, member_email, member_mobile) VALUES
-      (#{memberId}, #{memberPw}, #{memberName}, #{memberEmail}, #{memberMobile})
+  <insert id="save" parameterType="kr.sanus.boot11.member.Member">
+    INSERT INTO members (id, pw, name, email, mobile) VALUES
+      (#{id}, #{pw}, #{name}, #{email}, #{mobile})
   </insert>
 
-  <select id="findByMemberIdAndMemberPw" resultType="boolean">
-    SELECT COUNT(*) FROM members
-    WHERE member_id = #{memberId}
-      AND member_pw = #{memberPw}
+  <select id="findByIdAndPw" resultType="kr.sanus.boot11.member.Member">
+    SELECT * FROM members
+    WHERE id = #{id}
+    AND pw = #{pw}
   </select>
 
 </mapper>

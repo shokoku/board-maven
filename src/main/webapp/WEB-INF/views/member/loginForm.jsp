@@ -17,18 +17,18 @@
 <div class="container m-auto" >
     <form action="" method="post">
         <div class="form-floating mb-3">
-            <input type="text" id="memberId" name="memberId" value="${member.memberId}" class="form-control" placeholder="아이디">
-            <label for="memberId">아이디</label>
-            <c:if test="${bindingResult.hasFieldErrors('memberId')}">
-                <span style="color: red">${bindingResult.getFieldError('memberId').defaultMessage}</span><br>
+            <input type="text" id="id" name="id" value="${member.id}" class="form-control" placeholder="아이디">
+            <label for="id">아이디</label>
+            <c:if test="${bindingResult.hasFieldErrors('id')}">
+                <span style="color: red">${bindingResult.getFieldError('id').defaultMessage}</span><br>
             </c:if>
         </div>
 
         <div class="form-floating mb-3">
-            <input type="password" id="memberPw" name="memberPw" value="${member.memberPw}" class="form-control" placeholder="비밀번호">
-            <label for="memberPw">비밀번호</label>
-            <c:if test="${bindingResult.hasFieldErrors('memberPw')}">
-                <span style="color: red">${bindingResult.getFieldError('memberPw').defaultMessage}</span><br>
+            <input type="password" id="pw" name="pw" value="${member.pw}" class="form-control" placeholder="비밀번호">
+            <label for="pw">비밀번호</label>
+            <c:if test="${bindingResult.hasFieldErrors('pw')}">
+                <span style="color: red">${bindingResult.getFieldError('pw').defaultMessage}</span><br>
             </c:if>
         </div>
 

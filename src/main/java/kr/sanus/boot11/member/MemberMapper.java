@@ -1,12 +1,15 @@
 package kr.sanus.boot11.member;
 
+import java.util.Optional;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface MemberMapper {
 
-  void join(Member member);
+  void save(Member member);
 
-  boolean findByMemberIdAndMemberPw(String memberId, String memberPw);
+  Optional<Member> findByIdAndPw(@Param("id") String id, @Param("pw") String pw);
+
 
 }

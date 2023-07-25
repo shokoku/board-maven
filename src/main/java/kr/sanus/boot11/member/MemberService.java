@@ -1,5 +1,6 @@
 package kr.sanus.boot11.member;
 
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -11,11 +12,10 @@ public class MemberService {
 
   private final MemberMapper memberMapper;
   public void join(Member member) {
-    memberMapper.join(member);
+    memberMapper.save(member);
   }
 
-  public boolean login(String memberId, String memberPw) {
-    boolean result = memberMapper.findByMemberIdAndMemberPw(memberId, memberPw);
-    return result;
+  public Optional<Member> login(String id, String pw) {
+    return memberMapper.findByIdAndPw(id, pw);
   }
 }

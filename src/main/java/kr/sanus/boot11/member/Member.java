@@ -1,27 +1,31 @@
 package kr.sanus.boot11.member;
 
 import javax.validation.constraints.NotBlank;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class Member {
 
   @NotBlank
-  private String memberId;
+  private String id;
 
   @NotBlank
-  private String memberPw;
+  private String pw;
 
   @NotBlank
-  private String memberPw2;
+  private String pw2;
 
   @NotBlank
-  private String memberName;
+  private String name;
 
   @NotBlank
-  private String memberEmail;
+  private String email;
 
   @NotBlank
-  private String memberMobile;
+  private String mobile;
 
 }
