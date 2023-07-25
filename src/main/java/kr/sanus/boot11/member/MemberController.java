@@ -2,6 +2,7 @@ package kr.sanus.boot11.member;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -45,6 +46,29 @@ public class MemberController {
 
     memberService.join(member);
     return "redirect:/";
+  }
+
+  @GetMapping("/login")
+  public String loginForm(Model model) {
+    model.addAttribute("member", new Member());
+    return "member/loginForm";
+  }
+
+  @PostMapping("/login")
+  public String login(@Validated @ModelAttribute MemberLoginForm form,
+      BindingResult bindingResult, Model model) {
+
+    if (bindingResult.hasErrors()) {
+      log.info("errors={}", bindingResult);
+      model.addAttribute("bindingResult", bindingResult);
+      return "member/loginForm";
+    }
+
+    if (memberService.login(form.getMemberId(), form.getMemberPw())) {
+      return "redirect:/";
+    } else {
+      return "member/loginForm";
+    }
   }
 
 }

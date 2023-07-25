@@ -7,4 +7,10 @@
       (#{memberId}, #{memberPw}, #{memberName}, #{memberEmail}, #{memberMobile})
   </insert>
 
+  <select id="findByMemberIdAndMemberPw" resultType="boolean">
+    SELECT COUNT(*) FROM members
+    WHERE member_id = #{memberId}
+      AND member_pw = #{memberPw}
+  </select>
+
 </mapper>
