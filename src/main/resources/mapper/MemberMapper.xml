@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.sanus.boot11.member.MemberMapper">
+
+  <insert id="join" parameterType="kr.sanus.boot11.member.Member">
+    INSERT INTO members (member_id, member_pw, member_name, member_email, member_mobile) VALUES
+      (#{memberId}, #{memberPw}, #{memberName}, #{memberEmail}, #{memberMobile})
+  </insert>
+
+</mapper>
