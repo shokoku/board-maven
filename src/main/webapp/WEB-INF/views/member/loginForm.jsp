@@ -37,7 +37,7 @@
 </head>
 <body>
 <section id="login">
-    <h1 class="text-center m-3">로그인</h1>
+    <h2 class="text-center m-3">로그인</h2>
     <div class="container m-auto" >
         <form action="" method="post">
             <div class="form-floating mb-3">
@@ -60,7 +60,7 @@
                     ${errorMessage}
                 </div>
             </c:if>
-            <input type="submit" value="로그인" class="btn btn-lg btn-dark w-100">
+            <button type="submit" class="btn btn-lg btn-dark w-100">로그인</button>
         </form>
     </div>
     <div class="text-center mt-3">

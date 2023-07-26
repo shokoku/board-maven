@@ -9,8 +9,7 @@
 </head>
 
 <body>
-
-<div class="container-fluid m-auto" >
+<section id="nav" class="container-fluid">
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
         <div class="container-fluid">
             <a class="navbar-brand" href="/">SANUS</a>
@@ -38,7 +37,7 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
                         <li class="nav-upload">
-                                <a class="nav-link" href="/admin">관리자</a>
+                            <a class="nav-link" href="/admin">관리자</a>
                         </li>
                     </c:if>
                     <li class="nav-upload">
@@ -64,7 +63,9 @@
             </div>
         </div>
     </nav>
-    <h1 class="text-center m-3">메인</h1>
+</section>
+
+    <h2 class="text-center m-3">메인</h2>
 </div>
 </body>
 </html>

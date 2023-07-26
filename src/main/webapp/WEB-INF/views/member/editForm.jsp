@@ -4,44 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>회원가입</title>
+    <title>회원 정보</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <style>
-        .container {
-          max-width: 580px;
-        }
+      .container {
+        max-width: 580px;
+      }
     </style>
 </head>
 <body>
-<section class="join">
-    <h2 class="text-center m-3">회원가입</h2>
-    <div class="container m-auto" >
+<section id="info">
+    <h2 class="text-center m-3">회원수정</h2>
+    <div class="container m-auto">
         <form action="" method="post">
             <div class="form-floating mb-3">
-                <input type="text" id="id" name="id" value="${member.id}" class="form-control" placeholder="아이디">
+                <input type="text" id="id" name="id" value="${member.id}" class="form-control bg-black bg-opacity-25" placeholder="아이디" readonly>
                 <label for="id">아이디</label>
-                <c:if test="${bindingResult.hasFieldErrors('id')}">
-                    <span class="text-danger">${bindingResult.getFieldError('id').defaultMessage}</span><br>
-                </c:if>
             </div>
-
-            <div class="form-floating mb-3">
-                <input type="password" id="pw" name="pw" value="${member.pw}" class="form-control" placeholder="비밀번호">
-                <label for="pw">비밀번호</label>
-                <c:if test="${bindingResult.hasFieldErrors('pw')}">
-                    <span class="text-danger">${bindingResult.getFieldError('pw').defaultMessage}</span><br>
-                </c:if>
-            </div>
-
-
-            <div class="form-floating mb-3">
-                <input type="password" id="pw2" name="pw2" value="${member.pw2}" class="form-control" placeholder="비밀번호 확인">
-                <label for="pw2">비밀번호 확인</label>
-                <c:if test="${bindingResult.hasFieldErrors('pw2')}">
-                    <span class="text-danger">${bindingResult.getFieldError('pw2').defaultMessage}</span><br>
-                </c:if>
-            </div>
-
 
             <div class="form-floating mb-3">
                 <input type="tel" id="name" name="name" value="${member.name}" class="form-control" placeholder="이름">
@@ -66,10 +45,19 @@
                     <span class="text-danger">${bindingResult.getFieldError('email').defaultMessage}</span><br>
                 </c:if>
             </div>
-
-            <button type="submit" class="btn btn-lg btn-dark w-100">가입</button>
-    </form>
+            <div class="mb-3 row">
+                <span class="col"><button type="submit" class="btn btn-lg btn-dark w-100">저장</button></span>
+                <span class="col"><button id="cancelButton" type="button" class="btn btn-lg btn-dark w-100">취소</button></span>
+            </div>
+        </form>
 </div>
 </section>
+
+<script>
+  const editButton = document.querySelector("#cancelButton");
+  editButton.addEventListener("click", () =>{
+    window.location.href ='/member/info';
+  })
+</script>
 </body>
 </html>

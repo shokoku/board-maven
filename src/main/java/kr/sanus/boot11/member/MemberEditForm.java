@@ -8,12 +8,18 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class MemberLoginForm {
+public class MemberEditForm {
 
   @NotBlank
   private String id;
 
   @NotBlank
-  private String pw;
+  private String name;
+
+  @NotBlank
+  private String email;
+
+  @NotBlank
+  private String mobile;
 
 }

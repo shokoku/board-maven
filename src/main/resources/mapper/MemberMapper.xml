@@ -11,4 +11,8 @@
     SELECT * FROM members WHERE id=#{id}
   </select>
 
+  <update id="update" parameterType="kr.sanus.boot11.member.Member">
+    UPDATE members SET name=#{name}, email=#{email}, mobile=#{mobile} WHERE id=#{id}
+  </update>
+
 </mapper>

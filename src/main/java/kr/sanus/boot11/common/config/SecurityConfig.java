@@ -17,18 +17,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
         .antMatchers("/admin/**").hasRole("ADMIN")
-        .antMatchers("/vip/**").authenticated()
+        .antMatchers("/member/login", "/member/join", "/member/logout").permitAll()
+        .antMatchers("/member/**").authenticated()
         .antMatchers("/**").permitAll()
+
         .and()
         .csrf().disable()
         .headers(headers -> headers
             .addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+
         .formLogin(login -> login
             .loginPage("/member/login")
             .failureHandler(new CustomAuthenticationFailureHandler())
             .usernameParameter("id")
             .passwordParameter("pw")
             .defaultSuccessUrl("/"))
+
         .logout(logout -> logout
             .logoutUrl("/member/logout")
             .logoutSuccessUrl("/")

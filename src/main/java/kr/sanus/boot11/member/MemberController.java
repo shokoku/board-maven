@@ -1,9 +1,8 @@
 package kr.sanus.boot11.member;
 
-import java.util.Optional;
+import java.security.Principal;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -27,12 +26,13 @@ public class MemberController {
 
   @GetMapping("/join")
   public String joinForm(Model model) {
-    model.addAttribute("member",new Member());
+    model.addAttribute("member", new Member());
     return "member/joinForm";
   }
 
   @PostMapping("/join")
-  public String join(@Validated @ModelAttribute Member member, BindingResult bindingResult, Model model) {
+  public String join(@Validated @ModelAttribute Member member, BindingResult bindingResult,
+      Model model) {
 
     if (bindingResult.hasErrors()) {
       log.info("errors={}", bindingResult);
@@ -64,7 +64,8 @@ public class MemberController {
   }
 
   @PostMapping("/login")
-  public String login(@Validated @ModelAttribute Member member, BindingResult bindingResult, Model model) {
+  public String login(@Validated @ModelAttribute Member member, BindingResult bindingResult,
+      Model model) {
 
     if (bindingResult.hasErrors()) {
       log.info("errors={}", bindingResult);
@@ -74,4 +75,29 @@ public class MemberController {
     return "redirect:/";
   }
 
+  @GetMapping("/info")
+  public String info(Principal principal, Model model) {
+    Member member = memberService.info(principal.getName());
+    model.addAttribute("member", member);
+    return "member/info";
+  }
+
+  @GetMapping("/edit")
+  public String editForm(Principal principal, Model model) {
+    Member member = memberService.info(principal.getName());
+    model.addAttribute("member", member);
+    return "member/editForm";
+  }
+
+  @PostMapping("/edit")
+  public String edit(@Validated @ModelAttribute("member") MemberEditForm form,
+      BindingResult bindingResult, Model model) {
+    if (bindingResult.hasErrors()) {
+      log.info("errors={}", bindingResult);
+      model.addAttribute("bindingResult", bindingResult);
+      return "member/editForm";
+    }
+    memberService.edit(form);
+    return "redirect:/member/info";
+  }
 }
