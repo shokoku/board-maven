@@ -4,6 +4,9 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MemberController {
 
   private final MemberService memberService;
+  private final MemberSecurityService memberSecurityService;
 
   @GetMapping("/join")
   public String joinForm(Model model) {
@@ -46,30 +50,26 @@ public class MemberController {
     }
 
     memberService.join(member);
+
+    UserDetails userDetails = memberSecurityService.loadUserByUsername(member.getId());
+    UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+        userDetails, null, userDetails.getAuthorities());
+    SecurityContextHolder.getContext().setAuthentication(authenticationToken);
     return "redirect:/";
   }
 
   @GetMapping("/login")
-  public String loginForm(Model model) {
-    model.addAttribute("member", new Member());
+  public String loginForm() {
     return "member/loginForm";
   }
 
   @PostMapping("/login")
-  public String login(@Validated @ModelAttribute MemberLoginForm form,
-      BindingResult bindingResult, Model model) {
+  public String login(@Validated @ModelAttribute Member member, BindingResult bindingResult, Model model) {
 
     if (bindingResult.hasErrors()) {
       log.info("errors={}", bindingResult);
       model.addAttribute("bindingResult", bindingResult);
       return "member/loginForm";
-    }
-
-    Optional<Member> findMember = memberService.login(form.getId(), form.getPw());
-    if (findMember.isPresent()) {
-      System.out.println("findMember = " + findMember.get());
-    } else {
-      System.out.println("찾을수 없습니다.");
     }
     return "redirect:/";
   }

@@ -7,10 +7,8 @@
       (#{id}, #{pw}, #{name}, #{email}, #{mobile})
   </insert>
 
-  <select id="findByIdAndPw" resultType="kr.sanus.boot11.member.Member">
-    SELECT * FROM members
-    WHERE id = #{id}
-    AND pw = #{pw}
+  <select id="findById" resultType="kr.sanus.boot11.member.Member">
+    SELECT * FROM members WHERE id=#{id}
   </select>
 
 </mapper>

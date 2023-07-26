@@ -1,8 +1,8 @@
 package kr.sanus.boot11.member;
 
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -11,11 +11,10 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
   private final MemberMapper memberMapper;
+  private final PasswordEncoder passwordEncoder;
   public void join(Member member) {
+    member.setPw(passwordEncoder.encode(member.getPw()));
     memberMapper.save(member);
   }
 
-  public Optional<Member> login(String id, String pw) {
-    return memberMapper.findByIdAndPw(id, pw);
-  }
 }
