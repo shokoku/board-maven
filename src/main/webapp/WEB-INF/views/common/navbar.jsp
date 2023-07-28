@@ -26,7 +26,7 @@
                         <a class="nav-link" href="/api/sms/send">SMS</a>
                     </li>
                     <li class="nav-upload">
-                        <a class="nav-link">메뉴2</a>
+                        <a class="nav-link" href="/api/email/send">EMAIL</a>
                     </li>
                     <li class="nav-upload">
                         <a class="nav-link">메뉴3</a>

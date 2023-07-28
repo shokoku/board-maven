@@ -26,7 +26,7 @@ public class SmsController {
   @GetMapping("/send")
   public String sendForm(Model model) {
     model.addAttribute("sms",new SmsMessageDTO());
-    return "api/sendForm";
+    return "api/sms/sendForm";
   }
 
   @PostMapping("/send")
@@ -34,7 +34,7 @@ public class SmsController {
       throws JsonProcessingException, RestClientException, URISyntaxException, InvalidKeyException, NoSuchAlgorithmException, UnsupportedEncodingException {
     SmsResponseDTO response = smsService.sendSms(smsMessageDto);
     model.addAttribute("response", response);
-    return "api/result";
+    return "api/sms/result";
   }
 
 }
