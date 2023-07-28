@@ -17,6 +17,7 @@
 <section id="info">
     <h2 class="text-center m-3">회원정보</h2>
     <div class="container m-auto">
+
         <form>
             <div class="form-floating mb-3">
                 <input type="text" id="id" name="id" value="${member.id}" class="form-control" placeholder="아이디" readonly>

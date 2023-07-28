@@ -23,7 +23,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-upload">
-                        <a class="nav-link">메뉴1</a>
+                        <a class="nav-link" href="/api/sms/send">SMS</a>
                     </li>
                     <li class="nav-upload">
                         <a class="nav-link">메뉴2</a>
