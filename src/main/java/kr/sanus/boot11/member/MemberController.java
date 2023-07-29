@@ -103,16 +103,16 @@ public class MemberController {
     return "redirect:/member/info";
   }
 
-  @GetMapping("/idSearch")
-  public String idSearchForm(Model model) {
+  @GetMapping("/findId")
+  public String findIdForm(Model model) {
     model.addAttribute("member", new Member());
-    return "member/idSearchForm";
+    return "member/findIdForm";
   }
 
   @ResponseBody
-  @PostMapping("/checkNamedAndEmail")
-  public boolean checkNamedAndEmail(@RequestBody MemberEditForm form) {
-    Member member = memberService.checkNamedAndEmail(form.getName(), form.getEmail());
+  @PostMapping("/sendEmail")
+  public boolean findIdByEmailAndName(@RequestBody MemberEditForm form) {
+    Member member = memberService.findIdByEmailAndName(form.getEmail(), form.getName());
     if (member != null) {
       memberService.sendEmail(member.getEmail());
       return true;
@@ -120,13 +120,10 @@ public class MemberController {
     return false;
   }
   @ResponseBody
-  @PostMapping("/checkCertification")
-  public String checkCertification(@RequestBody MemberData form) {
+  @PostMapping("/checkNumber")
+  public String checkAuthenticationCode(@RequestBody MemberData form) {
     Member member = memberService.verifyCode(form.getEmail(), form.getCertification());
-    if (member != null) {
-      return member.getId();
-    }
-    return null;
+    return (member != null) ? member.getId() : null;
   }
 
 }

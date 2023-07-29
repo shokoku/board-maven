@@ -1,7 +1,6 @@
 package kr.sanus.boot11.member;
 
-import java.util.Optional;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
@@ -30,59 +29,59 @@ public class MemberService {
 
   public void edit(MemberEditForm form) {
     Member member = memberMapper.findById(form.getId());
+
     member.setName(form.getName());
     member.setMobile(form.getMobile());
     member.setEmail(form.getEmail());
     memberMapper.update(member);
   }
 
-  public Member checkNamedAndEmail(String name, String email) {
-    Optional<Member> optionalMember = memberMapper.findByEmail(email);
-
-    if (optionalMember.isPresent()) {
-      Member member = optionalMember.get();
-      if (member.getName().equals(name)  && member.getEmail().equals(email) ) {
-        return member;
-      }
-      return null;
-    }
-    return null;
+  public Member findIdByEmailAndName(String email, String name) {
+    return memberMapper.findByEmail(email)
+        .filter(member -> member.getName().equals(name))
+        .orElse(null);
   }
+
 
   public void sendEmail(String email) {
     String verificationCode = generateRandomVerificationCode();
+    sendVerificationCodeByEmail(email, verificationCode);
+    saveVerificationCode(email, verificationCode);
+  }
+
+  public Member verifyCode(String email, String inputCode) {
+    String storedCode = memberMapper.findCodeByEmail(email);
+
+    if (inputCode.equals(storedCode)) {
+      return memberMapper.findByEmail(email).orElse(null);
+    }
+
+    return null;
+  }
+
+  private static final int VERIFICATION_CODE_LENGTH = 6;
+
+  private String generateRandomVerificationCode() {
+    StringBuilder sb = new StringBuilder();
+
+    for (int i = 0; i < VERIFICATION_CODE_LENGTH; i++) {
+      int randomDigit = ThreadLocalRandom.current().nextInt(10);
+      sb.append(randomDigit);
+    }
+
+    return sb.toString();
+  }
+
+  private void sendVerificationCodeByEmail(String email, String verificationCode) {
     SimpleMailMessage message = new SimpleMailMessage();
     message.setTo(email);
     message.setSubject("Sanus 아이디 찾기");
     message.setText("인증번호는 " + verificationCode + " 입니다.");
     mailSender.send(message);
+  }
+
+  private void saveVerificationCode(String email, String verificationCode) {
     memberMapper.saveCode(email, verificationCode);
-  }
-
-  public Member verifyCode(String email, String inputCode) {
-    String byCode = memberMapper.findCodeByEmail(email);
-
-    if (inputCode.equals(byCode)) {
-      Optional<Member> memberOptional = memberMapper.findByEmail(email);
-      if (memberOptional.isPresent()) {
-        return memberOptional.get();
-      } else {
-        return null;
-      }
-    } else {
-      return null;
-    }
-  }
-
-
-  private String generateRandomVerificationCode() {
-    Random random = new Random();
-    StringBuilder sb = new StringBuilder();
-
-    for (int i = 0; i < 6; i++) {
-      sb.append(random.nextInt(10));
-    }
-    return sb.toString();
   }
 }
 

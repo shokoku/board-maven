@@ -19,7 +19,7 @@
     <div class="container m-auto">
         <form action="" method="post">
             <div class="form-floating mb-3">
-                <input type="tel" id="name" name="name" value="${member.name}" class="form-control" placeholder="이름">
+                <input type="text" id="name" name="name" value="${member.name}" class="form-control" placeholder="이름">
                 <label for="name">이름</label>
                 <c:if test="${bindingResult.hasFieldErrors('name')}">
                     <span class="text-danger">${bindingResult.getFieldError('name').defaultMessage}</span><br>
@@ -95,7 +95,7 @@
     const name = nameInput.value;
     const email = emailInput.value;
 
-    fetch("/member/checkNamedAndEmail", {
+    fetch("/member/sendEmail", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -123,7 +123,7 @@
     const email = emailInput.value;
     console.log(certification);
 
-    fetch("/member/checkCertification", {
+    fetch("/member/checkNumber", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
