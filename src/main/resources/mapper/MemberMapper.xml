@@ -11,8 +11,21 @@
     SELECT * FROM members WHERE id=#{id}
   </select>
 
+  <select id="findByEmail" resultType="kr.sanus.boot11.member.Member">
+    SELECT * FROM members WHERE email=#{email}
+  </select>
+
   <update id="update" parameterType="kr.sanus.boot11.member.Member">
     UPDATE members SET name=#{name}, email=#{email}, mobile=#{mobile} WHERE id=#{id}
   </update>
+
+  <insert id="saveCode" parameterType="String">
+    INSERT INTO verification(email, code) VALUES
+    (#{email}, #{code})
+  </insert>
+
+  <select id="findCodeByEmail" resultType="String">
+    SELECT code FROM verification WHERE email=#{email} ORDER BY id DESC LIMIT 1;
+  </select>
 
 </mapper>

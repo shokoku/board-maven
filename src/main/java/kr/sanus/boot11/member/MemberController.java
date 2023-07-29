@@ -13,7 +13,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Slf4j
 @Controller
@@ -100,4 +102,31 @@ public class MemberController {
     memberService.edit(form);
     return "redirect:/member/info";
   }
+
+  @GetMapping("/idSearch")
+  public String idSearchForm(Model model) {
+    model.addAttribute("member", new Member());
+    return "member/idSearchForm";
+  }
+
+  @ResponseBody
+  @PostMapping("/checkNamedAndEmail")
+  public boolean checkNamedAndEmail(@RequestBody MemberEditForm form) {
+    Member member = memberService.checkNamedAndEmail(form.getName(), form.getEmail());
+    if (member != null) {
+      memberService.sendEmail(member.getEmail());
+      return true;
+    }
+    return false;
+  }
+  @ResponseBody
+  @PostMapping("/checkCertification")
+  public String checkCertification(@RequestBody MemberData form) {
+    Member member = memberService.verifyCode(form.getEmail(), form.getCertification());
+    if (member != null) {
+      return member.getId();
+    }
+    return null;
+  }
+
 }

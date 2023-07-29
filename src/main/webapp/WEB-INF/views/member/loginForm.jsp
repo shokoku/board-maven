@@ -70,7 +70,7 @@
                 <a class="custom-link" href="">비밀번호 찾기</a>
             </li>
             <li class="list-group-item border-0 border-right text-muted custom-text">
-                <a class="custom-link" href="">아이디 찾기</a>
+                <a class="custom-link" href="/member/idSearch">아이디 찾기</a>
             </li>
             <li class="list-group-item border-0 text-muted custom-text">
                 <a class="custom-link" href="/member/join">회원가입</a>
