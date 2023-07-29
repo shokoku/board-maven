@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>아이디 찾기</title>
+    <title>비밀번호 찾기</title>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <style>
       .container {
@@ -15,9 +15,17 @@
 </head>
 <body>
 <section id="info">
-    <h2 class="text-center m-3">아이디 찾기</h2>
+    <h2 class="text-center m-3">비밀번호 찾기</h2>
     <div class="container m-auto">
         <form action="" method="post">
+            <div class="form-floating mb-3">
+                <input type="tel" id="id" name="id" value="${member.id}" class="form-control" placeholder="아이디">
+                <label for="id">아이디</label>
+                <c:if test="${bindingResult.hasFieldErrors('id')}">
+                    <span class="text-danger">${bindingResult.getFieldError('id').defaultMessage}</span><br>
+                </c:if>
+            </div>
+
             <div class="form-floating mb-3">
                 <input type="text" id="name" name="name" value="${member.name}" class="form-control" placeholder="이름">
                 <label for="name">이름</label>
@@ -66,13 +74,12 @@
             </div>
 
             <div class="form-floating mb-3">
-                <input type="text" id="id" name="id" class="form-control" placeholder="아이디" disabled>
-                <label for="name">아이디</label>
+                <input type="password" id="pw" name="pw" class="form-control" placeholder="변경 비밀번호" disabled>
+                <label for="pw">변경 비밀번호</label>
             </div>
 
             <div class="mb-3 row">
-                <span class="col"><button id="loginButton" type="button" class="btn btn-lg btn-dark w-100">로그인</button></span>
-                <span class="col"><button id="pwSearchButton" type="button" class="btn btn-lg btn-dark w-100">비밀번호 찾기</button></span>
+                <span class="col"><button id="changeButton" type="button" class="btn btn-lg btn-dark w-100">비밀번호 변경</button></span>
             </div>
         </form>
 </div>
@@ -80,27 +87,27 @@
 
 <script defer>
   const sendEmailButton = document.getElementById('sendEmail');
+  const idInput = document.getElementById('id');
   const nameInput = document.getElementById('name');
   const emailInput = document.getElementById('email');
   const errorContainer = document.getElementById('errorContainer');
   const certificationInput = document.getElementById('certification');
   const certificationButton = document.getElementById('certificationButton');
   const certificationResult = document.getElementById('certificationResult');
-  const timerContainer = document.getElementById('timerContainer');
-  const idInput = document.getElementById('id');
-  const loginButton = document.getElementById('loginButton');
-  const pwSearchButton = document.getElementById('pwSearchButton');
+  const pwInput = document.getElementById('pw');
+  const changeButton = document.getElementById('changeButton');
 
   sendEmailButton.addEventListener('click', () => {
     const name = nameInput.value;
     const email = emailInput.value;
+    const id = idInput.value;
 
     fetch("/member/sendEmail", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ "name": name, "email": email }),
+      body: JSON.stringify({"id":id, "name": name, "email": email }),
     })
     .then(response => response.json())
     .then(data => {
@@ -121,6 +128,7 @@
   certificationButton.addEventListener('click', () => {
     const certification = certificationInput.value;
     const email = emailInput.value;
+    console.log(certification);
 
     fetch("/member/checkNumber", {
       method: "POST",
@@ -133,7 +141,11 @@
     .then(data => {
       if (data) {
         certificationResult.textContent = "인증이 완료되었습니다.";
-        idInput.value = data;
+        changeButton.type = "submit";
+        changeButton.action = "/member/findPw";
+        changeButton.method = "post";
+        changeButton.removeAttribute('disabled');
+        pwInput.removeAttribute('disabled');
 
       } else {
         certificationResult.textContent = "인증번호가 일치하지 않습니다..";
@@ -143,14 +155,6 @@
       certificationResult.textContent = "관리자에게 문의해주세요.";
     });
   });
-
-  loginButton.addEventListener("click", () =>{
-    window.location.href ='/member/login';
-  })
-
-  pwSearchButton.addEventListener("click", () =>{
-    window.location.href ='/member/findPw';
-  })
 
 </script>
 </body>

@@ -112,18 +112,31 @@ public class MemberController {
   @ResponseBody
   @PostMapping("/sendEmail")
   public boolean findIdByEmailAndName(@RequestBody MemberEditForm form) {
-    Member member = memberService.findIdByEmailAndName(form.getEmail(), form.getName());
+    Member member = memberService.findIdByEmailAndName(form.getEmail(), form.getName(),form.getId());
     if (member != null) {
       memberService.sendEmail(member.getEmail());
       return true;
     }
     return false;
   }
+
   @ResponseBody
   @PostMapping("/checkNumber")
   public String checkAuthenticationCode(@RequestBody MemberData form) {
     Member member = memberService.verifyCode(form.getEmail(), form.getCertification());
     return (member != null) ? member.getId() : null;
+  }
+
+  @GetMapping("/findPw")
+  public String findPwForm(Model model) {
+    model.addAttribute("member", new Member());
+    return "member/findPwForm";
+  }
+
+  @PostMapping("/findPw")
+  public String pwEdit(String id, String pw) {
+    memberService.pwEdit(id,pw);
+    return "redirect:/member/login";
   }
 
 }

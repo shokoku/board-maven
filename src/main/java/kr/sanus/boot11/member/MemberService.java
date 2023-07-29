@@ -36,12 +36,18 @@ public class MemberService {
     memberMapper.update(member);
   }
 
-  public Member findIdByEmailAndName(String email, String name) {
-    return memberMapper.findByEmail(email)
-        .filter(member -> member.getName().equals(name))
-        .orElse(null);
-  }
+  public Member findIdByEmailAndName(String email, String name, String id) {
+    if (id == null) {
+      return memberMapper.findByEmail(email)
+          .filter(member -> member.getName().equals(name))
+          .orElse(null);
+    } else {
+      return memberMapper.findByEmail(email)
+          .filter(member -> member.getName().equals(name) && member.getId().equals(id))
+          .orElse(null);
+    }
 
+  }
 
   public void sendEmail(String email) {
     String verificationCode = generateRandomVerificationCode();
@@ -75,13 +81,18 @@ public class MemberService {
   private void sendVerificationCodeByEmail(String email, String verificationCode) {
     SimpleMailMessage message = new SimpleMailMessage();
     message.setTo(email);
-    message.setSubject("Sanus 아이디 찾기");
+    message.setSubject("Sanus 인증번호 입니다.");
     message.setText("인증번호는 " + verificationCode + " 입니다.");
     mailSender.send(message);
   }
 
   private void saveVerificationCode(String email, String verificationCode) {
     memberMapper.saveCode(email, verificationCode);
+  }
+
+  public void pwEdit(String id, String pw) {
+    String encodePassword = (passwordEncoder.encode(pw));
+    memberMapper.updatePw(encodePassword, id);
   }
 }
 

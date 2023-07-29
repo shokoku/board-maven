@@ -17,4 +17,6 @@ public interface MemberMapper {
 
   String findCodeByEmail(String email);
 
+  void updatePw(String pw, String id);
+
 }

@@ -28,4 +28,9 @@
     SELECT code FROM verification WHERE email=#{email} ORDER BY id DESC LIMIT 1;
   </select>
 
+  <update id="updatePw" parameterType="kr.sanus.boot11.member.Member">
+    UPDATE members SET pw=#{pw} WHERE id=#{id}
+  </update>
+
+
 </mapper>
