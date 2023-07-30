@@ -11,3 +11,13 @@ CREATE TABLE verification(
     email VARCHAR(100) NOT NULL,
     code VARCHAR(10) NOT NULL
 );
+
+CREATE TABLE board (
+                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                       title VARCHAR(255) NOT NULL,
+                       content TEXT,
+                       writer VARCHAR(100),
+                       createdDate DATETIME,
+                       updatedDate DATETIME
+);
+

@@ -29,7 +29,7 @@
                         <a class="nav-link" href="/api/email/send">EMAIL</a>
                     </li>
                     <li class="nav-upload">
-                        <a class="nav-link">메뉴3</a>
+                        <a class="nav-link" href="/board/list">게시판</a>
                     </li>
                 </ul>
 
