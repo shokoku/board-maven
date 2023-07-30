@@ -2,6 +2,7 @@ package kr.sanus.boot11.board;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,4 +30,11 @@ public class BoardService {
     return boardMapper.getTotalCount();
   }
 
+  public Board findById(int id) {
+    Optional<Board> boardOptional = boardMapper.findById(id);
+    if (boardOptional.isPresent()) {
+      return boardOptional.get();
+    }
+    return null;
+  }
 }

@@ -16,4 +16,8 @@
     SELECT COUNT(*) FROM board
   </select>
 
+  <select id="findById" resultType="kr.sanus.boot11.board.Board">
+    SELECT * FROM board WHERE id=#{id}
+  </select>
+
 </mapper>

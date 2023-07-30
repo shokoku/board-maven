@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,4 +66,22 @@ public class BoardController {
     return "board/list";
   }
 
+
+  @GetMapping("/detail/{id}")
+  public String content(@PathVariable int id, Model model) {
+    Board board = boardService.findById(id);
+    model.addAttribute("board", board);
+    return "board/detail";
+  }
+
+  @GetMapping("/test")
+  public void test() {
+    for (int i = 0; i < 100; i++) {
+      BoardSaveForm form = new BoardSaveForm();
+      form.setTitle(i + " 번째 제목");
+      form.setContent(i + " 번째 내용");
+      boardService.save(form,"test");
+
+    }
+  }
 }
