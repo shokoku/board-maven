@@ -7,4 +7,13 @@
     (#{title},#{content},#{writer},#{createdDate},#{updatedDate})
   </insert>
 
+  <select id="findAll" resultType="kr.sanus.boot11.board.Board">
+    SELECT * FROM board ORDER BY id DESC LIMIT #{limit} OFFSET #{offset}
+  </select>
+
+
+  <select id="getTotalCount" resultType="int">
+    SELECT COUNT(*) FROM board
+  </select>
+
 </mapper>

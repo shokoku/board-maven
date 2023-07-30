@@ -1,6 +1,7 @@
 package kr.sanus.boot11.board;
 
 import java.util.Date;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,14 @@ public class BoardService {
     board.setUpdatedDate(new Date());
     board.setWriter(writer);
     boardMapper.save(board);
+  }
+
+  public List<Board> findAll(int limit, int offset) {
+    return boardMapper.findAll(limit, offset);
+  }
+
+  public int getTotalCount() {
+    return boardMapper.getTotalCount();
   }
 
 }

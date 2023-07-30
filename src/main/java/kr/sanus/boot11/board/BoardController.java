@@ -1,6 +1,7 @@
 package kr.sanus.boot11.board;
 
 import java.security.Principal;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @Controller
@@ -45,6 +47,22 @@ public class BoardController {
 
     boardService.save(form, writer);
     return "redirect:/";
+  }
+
+  @GetMapping("/list")
+  public String list(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
+    int limit = 10;
+    int offset = (page - 1) * limit;
+
+    int totalCount = boardService.getTotalCount();
+    int totalPages = (int) Math.ceil((double) totalCount / limit);
+
+    List<Board> boards = boardService.findAll(limit, offset);
+    model.addAttribute("boards", boards);
+    model.addAttribute("totalPages", totalPages);
+    model.addAttribute("currentPage", page);
+
+    return "board/list";
   }
 
 }
